@@ -24,6 +24,15 @@ describe("AddTodo", function () {
     let buttonElement = screen.queryByRole("button");
     await userEvent.click(buttonElement);
 
-    await waitFor(() => expect(mockedCallback).toHaveBeenCalledWith(text));
+    const expectedAction = {
+      type: "ADD",
+      payload: { text },
+    };
+
+    await waitFor(() =>
+      expect(mockedCallback).toHaveBeenCalledWith(expectedAction)
+    );
+
+    expect(textElement).toHaveValue("");
   });
 });

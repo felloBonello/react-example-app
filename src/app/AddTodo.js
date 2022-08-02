@@ -8,17 +8,18 @@ export class AddTodo extends Component {
     this.state.callback = callback;
   }
 
-  addTodo = () => {
-    // dispatch the add action
-
-    this.state.callback({
-      type: "ADD",
-      payload: { id: 3, text: "some other todo" },
-    });
-  };
-
   updateText = (value) => {
     this.setState({ ...this.state, text: value });
+  };
+
+  addTodo = () => {
+    // dispatch the add action
+    this.state.callback({
+      type: "ADD",
+      payload: { text: this.state.text },
+    });
+
+    this.updateText("");
   };
 
   render() {
@@ -26,6 +27,7 @@ export class AddTodo extends Component {
       <div>
         <input
           onChange={(e) => this.updateText(e.target.value)}
+          value={this.state.text}
           role="input"
           type="text"
           id="todo-text"
