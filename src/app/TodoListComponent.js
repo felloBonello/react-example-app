@@ -1,6 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
 import { AddTodo } from "./AddTodo";
+import { List } from "./List";
+
 export class TodoListComponent extends React.Component {
   render() {
     const { todos } = this.props;
@@ -8,13 +10,7 @@ export class TodoListComponent extends React.Component {
     return (
       <>
         <AddTodo callback={(action) => this.props.dispatch(action)} />
-        <ul data-testid="todo-list-component">
-          {todos.map((item) => (
-            <li key={item.id} data-testid={`todo-${item.id}`}>
-              {item.text}
-            </li>
-          ))}
-        </ul>
+        <List todos={todos} />
       </>
     );
   }
