@@ -1,17 +1,27 @@
 import React from "react";
+import { connect } from "react-redux";
+import { AddTodo } from "./AddTodo";
+import { List } from "./List";
 
 export class TodoListComponent extends React.Component {
+  render() {
+    const { todos } = this.props;
 
-    constructor({todos}) {
-        super();
-        this.todos = todos;
-    }
-
-    render() {
-        return <ul data-testid='todo-list-component'>
-            {
-                this.todos.map(item => <li key={item.id} data-testid={`todo-${item.id}`}>{ item.text }</li> )
-            }
-        </ul>;
-    }
+    return (
+      <>
+        <AddTodo callback={(action) => this.props.dispatch(action)} />
+        <List todos={todos} />
+      </>
+    );
+  }
 }
+
+function mapStateToProps(state) {
+  const todo = state.todo;
+
+  return {
+    todos: todo.todos,
+  };
+}
+
+export default connect(mapStateToProps)(TodoListComponent);

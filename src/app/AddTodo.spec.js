@@ -1,31 +1,38 @@
-import {queryByRole, render, screen, waitFor} from "@testing-library/react";
-import {AddTodo} from "./AddTodo";
+import { render, screen, waitFor } from "@testing-library/react";
+import { AddTodo } from "./AddTodo";
 import userEvent from "@testing-library/user-event";
 
-describe('AddTodo', function () {
+describe("AddTodo", function () {
+  it("will render", () => {
+    render(<AddTodo />);
 
-    it('will render', () => {
-        render(<AddTodo/>);
+    // eslint-disable-next-line testing-library/prefer-presence-queries
+    expect(screen.queryByRole("input")).toBeTruthy();
+    // eslint-disable-next-line testing-library/prefer-presence-queries
+    expect(screen.queryByRole("button")).toBeTruthy();
+  });
 
-        // eslint-disable-next-line testing-library/prefer-presence-queries
-        expect(screen.queryByRole('input')).toBeTruthy();
-        // eslint-disable-next-line testing-library/prefer-presence-queries
-        expect(screen.queryByRole('button')).toBeTruthy();
-    });
+  it("create a todo", async () => {
+    const mockedCallback = jest.fn();
+    let text = "adding a new item";
 
-    it('create a todo', async () => {
-        const mockedCallback = jest.fn();
-        let text = 'adding a new item';
+    await render(<AddTodo callback={mockedCallback} />);
 
-        await render(<AddTodo callback={mockedCallback}/>);
+    let textElement = screen.queryByRole("input");
+    await userEvent.type(textElement, text);
 
-        let textElement = screen.queryByRole('input');
-        await userEvent.type(textElement, text);
+    let buttonElement = screen.queryByRole("button");
+    await userEvent.click(buttonElement);
 
-        let buttonElement = screen.queryByRole('button');
-        await userEvent.click(buttonElement);
+    const expectedAction = {
+      type: "ADD",
+      payload: { text },
+    };
 
-        await waitFor(() => expect(mockedCallback).toHaveBeenCalledWith(text));
-    });
+    await waitFor(() =>
+      expect(mockedCallback).toHaveBeenCalledWith(expectedAction)
+    );
 
+    expect(textElement).toHaveValue("");
+  });
 });
