@@ -1,8 +1,8 @@
 import TodoListComponent from "./TodoListComponent";
 import { render, screen } from "@testing-library/react";
-import { store } from "../app/store";
+import { store } from "../store";
 import { Provider } from "react-redux";
-import { initialState } from "../reducers/todo";
+import { initialState } from "../../reducers/todo";
 
 const renderTodoList = () => {
   return render(

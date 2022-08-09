@@ -1,5 +1,5 @@
 export const initialState = {
-  todos: [
+  list: [
     {
       id: 1,
       text: "I am a todo",
@@ -9,7 +9,7 @@ export const initialState = {
       text: "I am the second todo",
     },
   ],
-  completedTodos: [
+  complete: [
     {
       id: 3,
       text: "I am completed",
@@ -23,18 +23,18 @@ export const initialState = {
 
 let currentId = 4;
 
-const todo = (state = initialState, action) => {
+const todosReducer = (state = initialState, action) => {
   console.log(action);
   switch (action.type) {
     case "ADD":
       currentId++;
       return {
         ...state,
-        todos: [...state.todos, { ...action.payload, id: currentId }],
+        list: [...state.list, { text: action.payload, id: currentId }],
       };
     default:
       return state;
   }
 };
 
-export default todo;
+export default todosReducer;
