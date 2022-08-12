@@ -1,9 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-export class List extends React.Component {
+export default class List extends React.Component {
   static propTypes = {
-    items: PropTypes.array
+    items: PropTypes.array,
+    ariaLabel: PropTypes.string
   }
 
   static defaultProps = {
@@ -11,12 +12,12 @@ export class List extends React.Component {
   }
 
   render() {
-    const { items } = this.props;
+    const { items, ariaLabel } = this.props;
 
     return (
-      <ul data-testid="todosReducer-list-component">
+      <ul aria-label={ariaLabel}>
         {items?.map((item) => (
-          <li key={item.id} data-testid={`todosReducer-${item.id}`}>
+          <li key={item.id} aria-describedby={`listitem-id-${item.id}`}>
             {item.text}
           </li>
         ))}
