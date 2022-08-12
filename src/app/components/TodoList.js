@@ -1,5 +1,5 @@
 import React from "react";
-import { List } from "./List";
+import {List} from "./List";
 import PropTypes from "prop-types";
 
 export default class TodoList extends React.Component {
@@ -40,13 +40,14 @@ export default class TodoList extends React.Component {
               value={this.state.text}
               type="text"
               id="todo-text"
+              aria-label="todo"
           />
-          <button onClick={this.addTodo}>
+          <button onClick={this.addTodo} aria-label="submit">
             Add
           </button>
         </div>
-        <List key="list" items={list} />
-        <List key="completed" items={completedList} />
+        <List items={list} ariaLabel="todo"/>
+        <List items={completedList} ariaLabel="complete"/>
       </>
     );
   }

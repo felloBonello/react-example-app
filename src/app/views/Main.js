@@ -1,5 +1,5 @@
 import React from "react";
-import { connect } from "react-redux";
+import {connect} from "react-redux";
 import TodoList from "../components/TodoList";
 
 export class Main extends React.Component {
@@ -13,7 +13,6 @@ export class Main extends React.Component {
 
   render() {
     const {list, completedList} = this.props;
-    console.log('main render')
     return (
       <>
         <TodoList

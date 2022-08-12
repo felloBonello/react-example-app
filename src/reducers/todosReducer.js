@@ -24,7 +24,6 @@ export const initialState = {
 let currentId = 4;
 
 const todosReducer = (state = initialState, action) => {
-  console.log(action);
   switch (action.type) {
     case "ADD":
       currentId++;
