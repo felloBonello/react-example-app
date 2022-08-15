@@ -11,6 +11,13 @@ export class Main extends React.Component {
     });
   }
 
+  completeTodoCallback = (id) => {
+    this.props.dispatch({
+      type: "COMPLETE",
+      payload: id,
+    });
+  }
+
   render() {
     const {list, completedList} = this.props;
     return (
@@ -19,6 +26,7 @@ export class Main extends React.Component {
             list={list}
             completedList={completedList}
             addTodoCallback={this.addTodoCallback}
+            completeTodoCallback={this.completeTodoCallback}
         />
       </>
     );

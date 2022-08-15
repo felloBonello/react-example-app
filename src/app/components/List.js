@@ -4,21 +4,24 @@ import PropTypes from "prop-types";
 export default class List extends React.Component {
   static propTypes = {
     items: PropTypes.array,
-    ariaLabel: PropTypes.string
-  }
+    ariaLabel: PropTypes.string,
+    renderItem: PropTypes.func
+  };
 
   static defaultProps = {
-    items: []
-  }
+    items: [],
+  };
 
   render() {
-    const { items, ariaLabel } = this.props;
+    const { items, ariaLabel, renderItem } =
+      this.props;
 
     return (
       <ul aria-label={ariaLabel}>
         {items?.map((item) => (
-          <li key={item.id} aria-describedby={`listitem-id-${item.id}`}>
-            {item.text}
+          <li key={item.id}>
+            {renderItem && renderItem(item)}
+            {!renderItem && item.text}
           </li>
         ))}
       </ul>

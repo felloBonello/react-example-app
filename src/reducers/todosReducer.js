@@ -31,6 +31,12 @@ const todosReducer = (state = initialState, action) => {
         ...state,
         list: [...state.list, { text: action.payload, id: currentId }],
       };
+    case "COMPLETE":
+      const listItem = state.list.find(item => item.id === action.payload);
+      return {
+        list: [...state.list].splice(listItem?.id, 1),
+        complete: [...state.complete, listItem],
+      }
     default:
       return state;
   }

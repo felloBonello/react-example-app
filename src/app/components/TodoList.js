@@ -3,26 +3,29 @@ import List from "./List";
 import PropTypes from "prop-types";
 
 export default class TodoList extends React.Component {
-
   static propTypes = {
     list: PropTypes.array,
     completedList: PropTypes.array,
-    addTodoCallback: PropTypes.func
-  }
+    addTodoCallback: PropTypes.func,
+    completeTodoCallback: PropTypes.func,
+  };
 
   static defaultProps = {
     list: [],
     completedList: [],
-    addTodoCallback: value => {}
-  }
+    addTodoCallback: (value) => {},
+    completeTodoCallback: (value) => {},
+  };
 
   constructor(props) {
     super(props);
-    this.state = {text: ""};
+    this.state = { text: "" };
   }
 
   updateText = (value) => {
-    this.setState((prev) => {return { ...prev, text: value }});
+    this.setState((prev) => {
+      return { ...prev, text: value };
+    });
   };
 
   addTodo = () => {
@@ -31,23 +34,39 @@ export default class TodoList extends React.Component {
   };
 
   render() {
-    const { list, completedList } = this.props;
+    const { list, completedList, completeTodoCallback } = this.props;
     return (
       <>
         <div>
           <input
-              onChange={(e) => this.updateText(e.target.value)}
-              value={this.state.text}
-              type="text"
-              id="todo-text"
-              aria-label="todo"
+            onChange={(e) => this.updateText(e.target.value)}
+            value={this.state.text}
+            type="text"
+            id="todo-text"
+            aria-label="todo"
           />
           <button onClick={this.addTodo} aria-label="submit">
             Add
           </button>
         </div>
-        <List items={list} ariaLabel="todo"/>
-        <List items={completedList} ariaLabel="complete"/>
+        <List
+          items={list}
+          ariaLabel="todo"
+          renderItem = {item => (
+            <>
+              <p aria-label="text" role="article">
+                {item.text}
+              </p>
+              <button
+                  aria-label={`complete-${item.id}`}
+                  onClick={() => {completeTodoCallback(item.id)}}
+              >
+                Complete
+              </button>
+            </>
+          )
+        }/>
+        <List items={completedList} ariaLabel="complete" />
       </>
     );
   }
