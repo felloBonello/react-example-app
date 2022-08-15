@@ -6,15 +6,18 @@ export default class List extends React.Component {
     items: PropTypes.array,
     ariaLabel: PropTypes.string,
     completeTodoCallback: PropTypes.func,
+    hasCompleteButton: PropTypes.bool,
   };
 
   static defaultProps = {
     items: [],
     completeTodoCallback: () => {},
+    hasCompleteButton: false,
   };
 
   render() {
-    const { items, ariaLabel, completeTodoCallback } = this.props;
+    const { items, ariaLabel, completeTodoCallback, hasCompleteButton } =
+      this.props;
 
     return (
       <ul aria-label={ariaLabel}>
@@ -23,12 +26,14 @@ export default class List extends React.Component {
             <p aria-label="text" role="article">
               {item.text}
             </p>
-            <button
-              aria-label={`complete-${item.id}`}
-              onClick={() => completeTodoCallback(item.id)}
-            >
-              Complete
-            </button>
+            {hasCompleteButton && (
+              <button
+                aria-label={`complete-${item.id}`}
+                onClick={() => completeTodoCallback(item.id)}
+              >
+                Complete
+              </button>
+            )}
           </li>
         ))}
       </ul>

@@ -53,6 +53,7 @@ export default class TodoList extends React.Component {
           items={list}
           ariaLabel="todo"
           completeTodoCallback={completeTodoCallback}
+          hasCompleteButton={true}
         />
         <List items={completedList} ariaLabel="complete" />
       </>
