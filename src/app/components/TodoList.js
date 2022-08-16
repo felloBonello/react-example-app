@@ -5,14 +5,12 @@ import PropTypes from "prop-types";
 export default class TodoList extends React.Component {
   static propTypes = {
     list: PropTypes.array,
-    completedList: PropTypes.array,
     addTodoCallback: PropTypes.func,
     completeTodoCallback: PropTypes.func,
   };
 
   static defaultProps = {
     list: [],
-    completedList: [],
     addTodoCallback: (value) => {},
     completeTodoCallback: (value) => {},
   };
@@ -35,12 +33,14 @@ export default class TodoList extends React.Component {
 
   render() {
     const { list, completedList, completeTodoCallback } = this.props;
+    const { text } = this.state;
+
     return (
       <>
         <div>
           <input
             onChange={(e) => this.updateText(e.target.value)}
-            value={this.state.text}
+            value={text}
             type="text"
             id="todo-text"
             aria-label="todo"
@@ -50,7 +50,7 @@ export default class TodoList extends React.Component {
           </button>
         </div>
         <List
-          items={list}
+          items={list.filter(item => !item.isComplete)}
           ariaLabel="todo"
           renderItem = {item => (
             <>
@@ -66,7 +66,7 @@ export default class TodoList extends React.Component {
             </>
           )
         }/>
-        <List items={completedList} ariaLabel="complete" />
+        <List items={list.filter(item => item.isComplete)} ariaLabel="complete" />
       </>
     );
   }

@@ -8,7 +8,6 @@ const renderTodoList = () => {
   return render(
     <TodoList
       list={initialState.list}
-      completedList={initialState.complete}
       addTodoCallback={testCallback}
       completeTodoCallback={testCallback}
     />
@@ -27,7 +26,7 @@ describe("TodoListComponent", () => {
     renderTodoList();
     const todoList = screen.getByRole("list", { name: "todo" });
 
-    initialState.list.forEach((item) => {
+    initialState.list.filter(item => !item.isComplete).forEach((item) => {
       expect(
         within(todoList)
           .getAllByRole("article", { name: "text" })
@@ -40,10 +39,10 @@ describe("TodoListComponent", () => {
     renderTodoList();
     const complete = screen.getByRole("list", { name: "complete" });
 
-    initialState.complete.forEach((item) => {
+    initialState.list.filter(item => item.isComplete).forEach((item) => {
       expect(
         within(complete)
-          .getAllByRole("article", { name: "text" })
+          .getAllByRole("listitem")
           .find((li) => li.textContent === item.text)
       ).toBeInTheDocument();
     });
@@ -69,7 +68,6 @@ describe("TodoListComponent", () => {
     });
     fireEvent.click(completeButton1);
 
-    // expect(testCallback).toHaveBeenCalledWith(todoToComplete.id);
-    expect(testCallback).toHaveBeenCalled();
+    expect(testCallback).toHaveBeenCalledWith(todoToComplete.id);
   });
 });

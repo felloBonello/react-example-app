@@ -3,20 +3,22 @@ export const initialState = {
     {
       id: 1,
       text: "I am a todo",
+      isComplete: false
     },
     {
       id: 2,
       text: "I am the second todo",
+      isComplete: false
     },
-  ],
-  complete: [
     {
       id: 3,
       text: "I am completed",
+      isComplete: true
     },
     {
       id: 4,
       text: "done",
+      isComplete: true
     },
   ],
 };
@@ -29,13 +31,14 @@ const todosReducer = (state = initialState, action) => {
       currentId++;
       return {
         ...state,
-        list: [...state.list, { text: action.payload, id: currentId }],
+        list: [...state.list, { text: action.payload, id: currentId, isComplete: false }],
       };
     case "COMPLETE":
-      const listItem = state.list.find(item => item.id === action.payload);
       return {
-        list: [...state.list].splice(listItem?.id, 1),
-        complete: [...state.complete, listItem],
+        ...state,
+        list: state.list.map(
+            (item) => item.id === action.payload ? {...item, isComplete: true} : item
+        )
       }
     default:
       return state;

@@ -6,18 +6,31 @@ const ariaLabel = "blam";
 const initialProps = {
   list: initialState.list,
   label: ariaLabel,
-  hasCompleteButton: false,
 };
+
 const renderList = (props = initialProps) => {
-  const { list, label, hasCompleteButton } = props;
+  const { list, label, renderItem } = props;
   return render(
     <List
       items={list}
       ariaLabel={label}
-      hasCompleteButton={hasCompleteButton}
+      renderItem={renderItem}
     />
   );
 };
+
+const renderItem = (item) => {
+  return (
+      <>
+        <div role="test" aria-label="text">
+          {item.text}
+        </div>
+        <div role="test" aria-label="id">
+          {item.id}
+        </div>
+      </>
+  )
+}
 
 describe("TodoListComponent", () => {
   it("renders", () => {
@@ -30,21 +43,25 @@ describe("TodoListComponent", () => {
     initialState.list.forEach((item) => {
       expect(
         screen
-          .getAllByRole("article", { name: "text" })
+          .getAllByRole("listitem")
           .find((li) => li.textContent === item.text)
       ).toBeInTheDocument();
     });
   });
 
-  //TODO: pass hasCompleteButton prop
-  it("will not show complete button for a compeleted list", () => {
-    const [completedTodo] = initialProps.list;
-    renderList({ ...initialProps, complete: true });
-
-    expect(
-      screen.queryByRole("button", {
-        name: `complete-${completedTodo.id}`,
-      })
-    ).not.toBeInTheDocument();
+  it("lists items with custom item renderer", () => {
+    renderList({...initialProps, renderItem });
+    initialState.list.forEach((item) => {
+      expect(
+          screen
+              .getAllByRole("test", { name: "text" })
+              .find((li) => li.textContent === item.text)
+      ).toBeInTheDocument();
+      expect(
+          screen
+              .getAllByRole("test", { name: "id" })
+              .find((li) => li.textContent === item.id.toString())
+      ).toBeInTheDocument();
+    });
   });
-});
+})
