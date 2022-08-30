@@ -21,14 +21,14 @@ export class Main extends React.Component {
   render() {
     const {list, completedList} = this.props;
     return (
-      <>
+      <div className="flex place-content-center">
         <TodoList
             list={list}
             completedList={completedList}
             addTodoCallback={this.addTodoCallback}
             completeTodoCallback={this.completeTodoCallback}
         />
-      </>
+      </div>
     );
   }
 }

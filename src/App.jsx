@@ -5,9 +5,7 @@ import Main from "./app/views/Main";
 function App() {
   return (
     <div className="App">
-      <div className="App-header">
         <Main />
-      </div>
     </div>
   );
 }
