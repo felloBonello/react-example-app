@@ -1,20 +1,15 @@
 import React from "react";
 import List from "./List";
 import PropTypes from "prop-types";
+import {connect} from "react-redux";
 
-export default class TodoList extends React.Component {
+export class TodoList extends React.Component {
     static propTypes = {
         list: PropTypes.array,
-        addTodoCallback: PropTypes.func,
-        completeTodoCallback: PropTypes.func,
     };
 
     static defaultProps = {
         list: [],
-        addTodoCallback: (value) => {
-        },
-        completeTodoCallback: (value) => {
-        },
     };
 
     constructor(props) {
@@ -29,12 +24,15 @@ export default class TodoList extends React.Component {
     };
 
     addTodo = () => {
-        this.props.addTodoCallback(this.state.text);
+        const {add} = this.props;
+        const {text} = this.state;
+
+        add(text);
         this.updateText("");
     };
 
     render() {
-        const {list, completedList, completeTodoCallback} = this.props;
+        const {list, complete, add} = this.props;
         const {text} = this.state;
 
         return (
@@ -68,7 +66,7 @@ export default class TodoList extends React.Component {
                                     <button
                                         aria-label={`complete-${item.id}`}
                                         onClick={() => {
-                                            completeTodoCallback(item.id)
+                                            complete(item.id)
                                         }}
                                         className="btn btn-sm flex-none"
                                     >
@@ -90,3 +88,30 @@ export default class TodoList extends React.Component {
         );
     }
 }
+
+const add = (text) => ({
+    type: "ADD",
+    payload: text,
+})
+
+const complete = (id) => ({
+    type: "COMPLETE",
+    payload: id,
+})
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        add: text => dispatch(add(text)),
+        complete: id => dispatch(complete(id)),
+    }
+}
+
+function mapStateToProps(state) {
+    const {todos} = state;
+
+    return {
+        list: todos.list
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(TodoList);

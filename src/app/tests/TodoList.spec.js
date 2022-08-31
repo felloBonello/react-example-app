@@ -1,16 +1,14 @@
 import TodoList from "../components/TodoList";
 import {fireEvent, render, screen, within} from "@testing-library/react";
 import {initialState} from "../../reducers/todosReducer";
-
-const testCallback = jest.fn(() => "test");
+import {Provider} from "react-redux";
+import {store} from "../store";
 
 const renderTodoList = () => {
   return render(
-    <TodoList
-      list={initialState.list}
-      addTodoCallback={testCallback}
-      completeTodoCallback={testCallback}
-    />
+      <Provider store={store}>
+        <TodoList/>
+      </Provider>
   );
 };
 
@@ -41,33 +39,47 @@ describe("TodoListComponent", () => {
 
     initialState.list.filter(item => item.isComplete).forEach((item) => {
       expect(
-        within(complete)
-          .getAllByRole("listitem")
-          .find((li) => li.textContent === item.text)
+          within(complete)
+              .getAllByRole("listitem")
+              .find(li => li.textContent === item.text)
       ).toBeInTheDocument();
     });
   });
 
-  it("will call the addTodoCallback on submit", () => {
+  it("will call add a todo", () => {
     renderTodoList();
-    const submitButton = screen.getByRole("button", { name: "submit" });
-    const todoInput = screen.getByRole("textbox", { name: "todo" });
+    const submitButton = screen.getByRole("button", {name: "submit"});
+    const todoInput = screen.getByRole("textbox", {name: "todo"});
+    const todoList = screen.getByRole("list", {name: "todo"});
     const updateValue = "bippity boppity boop";
 
-    fireEvent.change(todoInput, { target: { value: updateValue } });
+    fireEvent.change(todoInput, {target: {value: updateValue}});
     fireEvent.click(submitButton);
 
-    expect(testCallback).toBeCalledWith(updateValue);
+    expect(
+        within(todoList).getByText(updateValue)
+    ).toBeInTheDocument();
+
+    expect(todoInput).toHaveValue("");
   });
 
   it("displays item in completed list after clicking complete", () => {
     renderTodoList();
     const [todoToComplete] = initialState.list;
+    const completeList = screen.getByRole("list", {name: "complete"});
+    const todoList = screen.getByRole("list", {name: "todo"});
     const completeButton1 = screen.getByRole("button", {
       name: `complete-${todoToComplete.id}`,
     });
+
     fireEvent.click(completeButton1);
 
-    expect(testCallback).toHaveBeenCalledWith(todoToComplete.id);
+    expect(
+        within(completeList).getByText(todoToComplete.text)
+    ).toBeInTheDocument();
+
+    expect(
+        within(todoList).queryByText(todoToComplete.text)
+    ).not.toBeInTheDocument();
   });
 });
