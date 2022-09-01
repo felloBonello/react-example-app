@@ -18,14 +18,14 @@ export const initialState = {
     {
       id: 4,
       text: "done",
-      isComplete: true
+      isComplete: true,
     },
   ],
 };
 
 let currentId = 4;
 
-const todosReducer = (state = initialState, action) => {
+const todosReducer = (state, action) => {
   switch (action.type) {
     case "ADD":
       currentId++;

@@ -32,8 +32,27 @@ export class TodoList extends React.Component {
     };
 
     render() {
-        const {list, complete, add} = this.props;
+        const {list, complete } = this.props;
         const {text} = this.state;
+
+        const CustomButton = (item) => {
+
+            return  (
+               <div className="flex">
+                   <p className="flex-auto" aria-label="text" role="article">
+                       {item.text}
+                   </p>
+                   <button
+                        aria-label={`complete-${item.id}`}
+                        onClick={() => {
+                            complete(item.id)
+                        }}
+                        className="btn btn-sm flex-none"
+                    >
+                        Complete
+                    </button>
+               </div>)
+        }
 
         return (
             <div className="w-6/12 max-w-xl justify-center">
@@ -57,23 +76,9 @@ export class TodoList extends React.Component {
                             className=""
                             itemClassName="grid rounded bg-primary text-primary-content p-2 mt-3"
                             items={list.filter(item => !item.isComplete)}
-                            ariaLabel="todo"
-                            renderItem={item => (
-                                <div className="flex">
-                                    <p className="flex-auto" aria-label="text" role="article">
-                                        {item.text}
-                                    </p>
-                                    <button
-                                        aria-label={`complete-${item.id}`}
-                                        onClick={() => {
-                                            complete(item.id)
-                                        }}
-                                        className="btn btn-sm flex-none"
-                                    >
-                                        Complete
-                                    </button>
-                                </div>
-                            )}/>
+                            ariaLabel="todo">
+                            {CustomButton}
+                        </List>
                     </div>
                     <div className="mt-10">
                         <h1>Completed</h1>
