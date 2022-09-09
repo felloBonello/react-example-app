@@ -2,10 +2,19 @@ import TodoList from "../components/TodoList";
 import {fireEvent, render, screen, within} from "@testing-library/react";
 import {Provider} from "react-redux";
 import {todosState} from "../../data/todosState";
-import {store} from "../store";
-import {initialState} from "../../reducers/todosReducer";
+import {configureStore} from "@reduxjs/toolkit";
+import todosReducer from "../../reducers/todosReducer";
 
 const renderTodoList = (state = todosState) => {
+  const store = configureStore({
+    reducer: {
+      todos: todosReducer
+    },
+    preloadedState: {
+      todos: state
+    }
+  });
+
   return render(
       <Provider store={store}>
         <TodoList/>
@@ -25,11 +34,11 @@ describe("TodoListComponent", () => {
     renderTodoList();
     const todoList = screen.getByRole("list", { name: "todo" });
 
-    initialState.list.filter(item => !item.isComplete).forEach((item) => {
+    todosState.list.filter(item => !item.isComplete).forEach((item) => {
       expect(
-        within(todoList)
-          .getAllByRole("article", { name: "text" })
-          .find((li) => li.textContent === item.text)
+          within(todoList)
+              .getAllByRole("article", {name: "text"})
+              .find((li) => li.textContent === item.text)
       ).toBeInTheDocument();
     });
   });
@@ -38,7 +47,7 @@ describe("TodoListComponent", () => {
     renderTodoList();
     const complete = screen.getByRole("list", { name: "complete" });
 
-    initialState.list.filter(item => item.isComplete).forEach((item) => {
+    todosState.list.filter(item => item.isComplete).forEach((item) => {
       expect(
           within(complete)
               .getAllByRole("listitem")
@@ -66,7 +75,7 @@ describe("TodoListComponent", () => {
 
   it("displays item in completed list after clicking complete", () => {
     renderTodoList();
-    const [todoToComplete] = initialState.list;
+    const [todoToComplete] = todosState.list;
     const completeList = screen.getByRole("list", {name: "complete"});
     const todoList = screen.getByRole("list", {name: "todo"});
     const completeButton1 = screen.getByRole("button", {

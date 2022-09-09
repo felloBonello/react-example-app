@@ -1,10 +1,10 @@
 import List from "../components/List";
 import {render, screen} from "@testing-library/react";
-import {initialState} from "../../reducers/todosReducer";
+import {todosState} from "../../data/todosState";
 
 const ariaLabel = "blam";
 const initialProps = {
-  list: initialState.list,
+  list: todosState.list,
   label: ariaLabel,
 };
 
@@ -40,26 +40,26 @@ describe("TodoListComponent", () => {
 
   it("lists items", () => {
     renderList();
-    initialState.list.forEach((item) => {
+    todosState.list.forEach((item) => {
       expect(
-        screen
-          .getAllByRole("listitem")
-          .find((li) => li.textContent === item.text)
+          screen
+              .getAllByRole("listitem")
+              .find((li) => li.textContent === item.text)
       ).toBeInTheDocument();
     });
   });
 
   it("lists items with custom item renderer", () => {
     renderList({...initialProps, renderItem });
-    initialState.list.forEach((item) => {
+    todosState.list.forEach((item) => {
       expect(
           screen
-              .getAllByRole("test", { name: "text" })
+              .getAllByRole("test", {name: "text"})
               .find((li) => li.textContent === item.text)
       ).toBeInTheDocument();
       expect(
           screen
-              .getAllByRole("test", { name: "id" })
+              .getAllByRole("test", {name: "id"})
               .find((li) => li.textContent === item.id.toString())
       ).toBeInTheDocument();
     });

@@ -1,22 +1,22 @@
 export const todosState = {
     list: [
         {
-            id: 1,
+            id: "fe130a78-f68b-4f73-94e5-8de6fc2c7e1a",
             text: "I am a todo",
             isComplete: false
         },
         {
-            id: 2,
+            id: "fe130a78-f68b-4f73-94e5-8de6fc2c7e1b",
             text: "I am the second todo",
             isComplete: false
         },
         {
-            id: 3,
+            id: "fe130a78-f68b-4f73-94e5-8de6fc2c7e1c",
             text: "I am completed",
             isComplete: true
         },
         {
-            id: 4,
+            id: "fe130a78-f68b-4f73-94e5-8de6fc2c7e1d",
             text: "done",
             isComplete: true,
         },
