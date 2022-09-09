@@ -1,6 +1,6 @@
-import List from "../components/List";
+import ListF from "../../components/functional/ListF";
 import {render, screen} from "@testing-library/react";
-import {todosState} from "../../data/todosState";
+import {todosState} from "../../../data/todosState";
 
 const ariaLabel = "blam";
 const initialProps = {
@@ -9,13 +9,13 @@ const initialProps = {
 };
 
 const renderList = (props = initialProps) => {
-  const { list, label, renderItem } = props;
+  const {list, label, renderItem} = props;
   return render(
-    <List
-      items={list}
-      ariaLabel={label}
-      renderItem={renderItem}
-    />
+      <ListF
+          items={list}
+          ariaLabel={label}
+          renderItem={renderItem}
+      />
   );
 };
 
@@ -32,10 +32,10 @@ const renderItem = (item) => {
   )
 }
 
-describe("TodoListComponent", () => {
+describe("TodoListFComponent", () => {
   it("renders", () => {
     renderList();
-    expect(screen.getByRole("list", { name: "blam" })).toBeInTheDocument();
+    expect(screen.getByRole("list", {name: "blam"})).toBeInTheDocument();
   });
 
   it("lists items", () => {
@@ -50,7 +50,7 @@ describe("TodoListComponent", () => {
   });
 
   it("lists items with custom item renderer", () => {
-    renderList({...initialProps, renderItem });
+    renderList({...initialProps, renderItem});
     todosState.list.forEach((item) => {
       expect(
           screen

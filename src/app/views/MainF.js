@@ -1,11 +1,10 @@
-import React, {useState} from "react";
-import {initialState} from "../../reducers/todosReducer";
-import TodoListF from "../components/TodoListF";
+import {todosState} from "../../data/todosState";
+import TodoListF from "../components/functional/TodoListF";
 
 export default function MainF() {
-    const [list, setList] = useState(initialState.list)
-
     return (
-        <TodoListF list={list} setList={setList}/>
+        <div className="flex place-content-center">
+            <TodoListF initialList={todosState.list}/>
+        </div>
     );
 }

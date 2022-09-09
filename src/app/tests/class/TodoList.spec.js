@@ -1,9 +1,9 @@
-import TodoList from "../components/TodoList";
+import TodoList from "../../components/class/TodoList";
 import {fireEvent, render, screen, within} from "@testing-library/react";
 import {Provider} from "react-redux";
-import {todosState} from "../../data/todosState";
+import {todosState} from "../../../data/todosState";
 import {configureStore} from "@reduxjs/toolkit";
-import todosReducer from "../../reducers/todosReducer";
+import todosReducer from "../../../reducers/todosReducer";
 
 const renderTodoList = (state = todosState) => {
   const store = configureStore({
