@@ -18,15 +18,15 @@ export default class List extends React.Component {
   };
 
   render() {
-    const {items, ariaLabel, renderItem, className, itemClassName, children} =
+    const {items, ariaLabel, renderItem, className, itemClassName} =
         this.props;
 
     return (
         <ul aria-label={ariaLabel} className={className}>
           {items?.map((item) => (
               <li className={itemClassName} key={item.id}>
-                {children && children(item)}
-                {!children && item.text}
+                {renderItem && renderItem(item)}
+                {!renderItem && item.text}
               </li>
           ))}
         </ul>

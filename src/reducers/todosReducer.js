@@ -25,13 +25,13 @@ export const initialState = {
 
 let currentId = 4;
 
-const todosReducer = (state, action) => {
+const todosReducer = (state = initialState, action) => {
   switch (action.type) {
     case "ADD":
       currentId++;
       return {
         ...state,
-        list: [...state.list, { text: action.payload, id: currentId, isComplete: false }],
+        list: [...state.list, {text: action.payload, id: currentId, isComplete: false}],
       };
     case "COMPLETE":
       return {

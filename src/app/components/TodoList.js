@@ -35,14 +35,13 @@ export class TodoList extends React.Component {
         const {list, complete } = this.props;
         const {text} = this.state;
 
-        const CustomButton = (item) => {
-
-            return  (
-               <div className="flex">
-                   <p className="flex-auto" aria-label="text" role="article">
-                       {item.text}
-                   </p>
-                   <button
+        const renderTodoItem = (item) => {
+            return (
+                <div className="flex">
+                    <p className="flex-auto" aria-label="text" role="article">
+                        {item.text}
+                    </p>
+                    <button
                         aria-label={`complete-${item.id}`}
                         onClick={() => {
                             complete(item.id)
@@ -76,8 +75,8 @@ export class TodoList extends React.Component {
                             className=""
                             itemClassName="grid rounded bg-primary text-primary-content p-2 mt-3"
                             items={list.filter(item => !item.isComplete)}
-                            ariaLabel="todo">
-                            {CustomButton}
+                            ariaLabel="todo"
+                            renderItem={renderTodoItem}>
                         </List>
                     </div>
                     <div className="mt-10">
